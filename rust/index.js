@@ -371,3 +371,4 @@ if (!nativeBinding) {
 }
 
 module.exports.runProject = nativeBinding.runProject
+module.exports.transform = nativeBinding.transform

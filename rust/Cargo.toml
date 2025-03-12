@@ -7,8 +7,11 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
+anyhow = "1"
 napi = { version = "3.0.0-alpha", features = ["napi4"] }
 napi-derive = { version = "3.0.0-alpha", default-features = false, features = ["type-def"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = "1"
 
 [build-dependencies]
 napi-build = "2.1.5"

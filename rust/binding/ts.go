@@ -1,4 +1,5 @@
 // #include <stddef.h>
+// #include <stdlib.h>
 
 package main
 
@@ -7,17 +8,21 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unsafe"
 
 	"github.com/microsoft/typescript-go/internal/ast"
+	"github.com/microsoft/typescript-go/internal/binder"
 	"github.com/microsoft/typescript-go/internal/bundled"
 	ts "github.com/microsoft/typescript-go/internal/compiler"
 	"github.com/microsoft/typescript-go/internal/core"
 	"github.com/microsoft/typescript-go/internal/diagnosticwriter"
+	"github.com/microsoft/typescript-go/internal/parser"
+	"github.com/microsoft/typescript-go/internal/printer"
 	"github.com/microsoft/typescript-go/internal/scanner"
+	"github.com/microsoft/typescript-go/internal/transformers"
 	"github.com/microsoft/typescript-go/internal/tspath"
 	"github.com/microsoft/typescript-go/internal/vfs/osvfs"
 )
-import "unsafe"
 
 //export RunProject
 func RunProject(project *C.char, out_diagnostics **C.void, out_length *C.size_t) {
@@ -42,7 +47,7 @@ func RunProject(project *C.char, out_diagnostics **C.void, out_length *C.size_t)
 	compilerOptions = program.Options()
 	diagnostics := program.GetConfigFileParsingDiagnostics()
 	if len(diagnostics) != 0 {
-		printDiagnostics(diagnostics, host, compilerOptions)
+		printDiagnostics(diagnostics, host, compilerOptions.Pretty.IsFalse())
 		return
 	}
 	result := program.Emit(&ts.EmitOptions{})
@@ -56,9 +61,37 @@ func RunProject(project *C.char, out_diagnostics **C.void, out_length *C.size_t)
 	}
 }
 
-func printDiagnostics(diagnostics []*ast.Diagnostic, host ts.CompilerHost, compilerOptions *core.CompilerOptions) {
+//export Transform
+func Transform(input *C.char, filename *C.char) *C.char {
+	fileName := C.GoString(filename)
+	file := parser.ParseSourceFile(fileName, tspath.Path(fileName), C.GoString(input), core.ScriptTargetESNext, scanner.JSDocParsingModeParseNone)
+
+	// Get the Go object from the handle
+	compilerOptions := &core.CompilerOptions{
+		Target:     core.ScriptTargetLatest,
+		ModuleKind: core.ModuleKindESNext,
+	}
+
+	ast.SetParentInChildren(file.AsNode())
+	emitContext := printer.NewEmitContext()
+	resolver := binder.NewReferenceResolver(binder.ReferenceResolverHooks{})
+	file = transformers.NewTypeEraserTransformer(emitContext, compilerOptions).TransformSourceFile(file)
+	file = transformers.NewRuntimeSyntaxTransformer(emitContext, compilerOptions, resolver).TransformSourceFile(file)
+	// file = transformers.NewESModuleTransformer(emitContext, compilerOptions, resolver).TransformSourceFile(file)
+	printer := printer.NewPrinter(
+		printer.PrinterOptions{
+			NewLine: core.NewLineKindLF,
+		},
+		printer.PrintHandlers{},
+		emitContext,
+	)
+	text := printer.EmitSourceFile(file)
+	return C.CString(text)
+}
+
+func printDiagnostics(diagnostics []*ast.Diagnostic, host ts.CompilerHost, pretty bool) {
 	formatOpts := getFormatOpts(host)
-	if compilerOptions.Pretty.IsTrueOrUnknown() {
+	if pretty {
 		diagnosticwriter.FormatDiagnosticsWithColorAndContext(os.Stdout, diagnostics, formatOpts)
 		fmt.Fprintln(os.Stdout)
 		diagnosticwriter.WriteErrorSummaryText(os.Stdout, diagnostics, formatOpts)
