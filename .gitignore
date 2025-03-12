@@ -189,4 +189,8 @@ custom-gcl.hash
 /built
 
 # macOS Finder metadata
-.DS_Store
+
+# Rust
+/target
+*.a
+*.node
