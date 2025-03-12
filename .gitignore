@@ -192,3 +192,8 @@ custom-gcl.hash
 .DS_Store
 
 .idea
+
+# Rust
+/target
+*.a
+*.node
