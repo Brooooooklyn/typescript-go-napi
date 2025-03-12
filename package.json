@@ -20,6 +20,7 @@
         "url": "https://github.com/microsoft/typescript-go.git"
     },
     "devDependencies": {
+        "@napi-rs/cli": "^3.0.0-alpha.73",
         "@types/node": "latest",
         "@types/which": "^3.0.4",
         "chokidar": "^4.0.3",
@@ -36,6 +37,7 @@
         "postinstall": "hereby postinstall",
         "build": "hereby build",
         "build:watch": "hereby build:watch",
+        "build:rust": "napi build --manifest-path ./rust/Cargo.toml --platform --release",
         "test": "hereby test",
         "extension:build": "npm run -w typescript-lsp build",
         "extension:watch": "npm run -w typescript-lsp watch"
@@ -47,5 +49,8 @@
     "volta": {
         "node": "20.5.1",
         "npm": "8.19.4"
+    },
+    "napi": {
+      "binaryName": "tsgo"
     }
 }
