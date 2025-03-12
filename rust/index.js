@@ -370,4 +370,4 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-module.exports.resolveTsconfig = nativeBinding.resolveTsconfig
+module.exports.runProject = nativeBinding.runProject
