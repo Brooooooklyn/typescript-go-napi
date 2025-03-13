@@ -47,7 +47,8 @@ jobs:
       - run: npm run build:rust -- --target ${{ matrix.settings.target }}
         if: ${{ !contains(matrix.settings.target, 'linux') }}
         shell: bash
-      - run: node --test rust/__tests__/*.spec.js
+      - run: node --test ./rust
+        shell: bash
       - uses: actions/attest-build-provenance@v2
         with:
           subject-path: ./rust/*.node
