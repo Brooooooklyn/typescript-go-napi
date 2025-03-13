@@ -89,6 +89,7 @@ jobs:
             echo "Not a release, skipping publish"
             npm publish --access public --dry-run
           fi
+        working-directory: rust
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
