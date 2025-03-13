@@ -2,4 +2,4 @@
 /* eslint-disable */
 export declare function runProject(project: string): void
 
-export declare function transform(input: string, filename: string): string
+export declare function transform(input: string | Uint8Array, filename: string): string
