@@ -5,6 +5,10 @@
     "name": "LongYinan",
     "email": "github@lyn.one"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/typescript-go-napi.git"
+  },
   "license": "Apache-2.0",
   "description": "Node.js API for https://github.com/microsoft/typescript-go project",
   "main": "index.js",
@@ -13,6 +17,10 @@
     "index.js",
     "index.d.ts"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "napi": {
     "binaryName": "tsgo",
     "packageName": "@typescript-go/api",
