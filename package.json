@@ -37,7 +37,7 @@
         "postinstall": "hereby postinstall",
         "build": "hereby build",
         "build:watch": "hereby build:watch",
-        "build:rust": "napi build --manifest-path ./rust/Cargo.toml --platform --release",
+        "build:rust": "napi build --cwd ./rust --platform --release",
         "test": "hereby test",
         "extension:build": "npm run -w typescript-lsp build",
         "extension:watch": "npm run -w typescript-lsp watch"
@@ -49,12 +49,5 @@
     "volta": {
         "node": "20.5.1",
         "npm": "8.19.4"
-    },
-    "napi": {
-      "binaryName": "tsgo",
-      "targets": [
-        "x86_64-unknown-linux-gnu",
-        "aarch64-apple-darwin"
-      ]
     }
 }

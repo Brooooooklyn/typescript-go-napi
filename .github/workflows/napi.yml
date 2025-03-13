@@ -5,17 +5,28 @@ on:
     branches:
       - main
   pull_request:
+
+env:
+  DEBUG: napi:*
       
 jobs:
   build:
+    permissions:
+      attestations: write
+      id-token: write
     runs-on: ${{ matrix.settings.host }}
     strategy:
+      fail-fast: false
       matrix:
         settings:
           - target: aarch64-apple-darwin
             host: macos-latest
           - target: x86_64-unknown-linux-gnu
             host: ubuntu-latest
+          - target: aarch64-unknown-linux-gnu
+            host: ubuntu-24.04-arm
+          - target: x86_64-pc-windows-msvc
+            host: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,3 +46,47 @@ jobs:
         if: ${{ contains(matrix.settings.target, 'linux') }}
       - run: npm run build:rust -- --target ${{ matrix.settings.target }}
         if: ${{ !contains(matrix.settings.target, 'linux') }}
+        shell: bash
+      - run: node --test rust/__tests__/*.spec.js
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./rust/*.node
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: ./rust/tsgo.*.node
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: ./rust/artifacts
+      - run: npm install
+      - run: |
+          npx napi create-npm-dirs
+          npx napi artifacts
+        working-directory: rust
+      - run: |
+          npm config set provenance true
+          npx napi pre-publish -t npm
+          if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
+          then
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            npm publish --access public
+          elif git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+";
+          then
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            npm publish --tag next --access public
+          else
+            echo "Not a release, skipping publish"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

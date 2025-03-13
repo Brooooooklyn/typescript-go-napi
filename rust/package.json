@@ -6,5 +6,13 @@
   "files": [
     "index.js",
     "index.d.ts"
-  ]
+  ],
+  "napi": {
+    "binaryName": "tsgo",
+    "packageName": "@typescript-go/api",
+    "targets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-apple-darwin"
+    ]
+  }
 }
