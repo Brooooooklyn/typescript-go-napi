@@ -39,10 +39,10 @@ pub fn run_project(project: String) -> Result<()> {
 }
 
 #[napi]
-pub fn transform(input: String, filename: String) -> Result<RawCString> {
+pub fn transform(input: Either<String, &[u8]>, filename: String) -> Result<RawCString> {
     let result = unsafe {
         sys::Transform(
-            CString::new(input)?.into_raw(),
+            CString::new(input.as_ref())?.into_raw(),
             CString::new(filename)?.into_raw(),
         )
     };
