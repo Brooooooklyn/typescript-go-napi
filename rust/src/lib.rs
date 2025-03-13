@@ -4,6 +4,9 @@ use std::ptr;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
+mod compiler_options;
+mod error;
+
 mod sys {
     use std::ffi::{c_char, c_void};
 
@@ -14,6 +17,9 @@ mod sys {
             diagnostics: *mut *mut c_void,
             length: *mut usize,
         );
+
+        pub fn Transform(input: *const c_char, filename: *const c_char) -> *const c_char;
+
     }
 }
 
@@ -30,4 +36,15 @@ pub fn run_project(project: String) -> Result<()> {
     };
 
     Ok(())
+}
+
+#[napi]
+pub fn transform(input: String, filename: String) -> Result<RawCString> {
+    let result = unsafe {
+        sys::Transform(
+            CString::new(input)?.into_raw(),
+            CString::new(filename)?.into_raw(),
+        )
+    };
+    Ok(RawCString::new(result, NAPI_AUTO_LENGTH))
 }
