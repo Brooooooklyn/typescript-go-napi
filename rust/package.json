@@ -1,0 +1,26 @@
+{
+  "name": "@typescript-go/api",
+  "version": "0.0.1",
+  "author": {
+    "name": "LongYinan",
+    "email": "github@lyn.one"
+  },
+  "license": "Apache-2.0",
+  "description": "Node.js API for https://github.com/microsoft/typescript-go project",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "napi": {
+    "binaryName": "tsgo",
+    "packageName": "@typescript-go/api",
+    "targets": [
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-apple-darwin"
+    ]
+  }
+}

@@ -74,7 +74,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-android-arm64')
+        return require('@typescript-go/api-android-arm64')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -86,7 +86,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-android-arm-eabi')
+        return require('@typescript-go/api-android-arm-eabi')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -102,7 +102,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-win32-x64-msvc')
+        return require('@typescript-go/api-win32-x64-msvc')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -114,7 +114,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-win32-ia32-msvc')
+        return require('@typescript-go/api-win32-ia32-msvc')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -126,7 +126,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-win32-arm64-msvc')
+        return require('@typescript-go/api-win32-arm64-msvc')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -141,7 +141,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-darwin-universal')
+        return require('@typescript-go/api-darwin-universal')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -153,7 +153,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-darwin-x64')
+        return require('@typescript-go/api-darwin-x64')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -165,7 +165,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-darwin-arm64')
+        return require('@typescript-go/api-darwin-arm64')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -181,7 +181,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-freebsd-x64')
+        return require('@typescript-go/api-freebsd-x64')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -193,7 +193,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-freebsd-arm64')
+        return require('@typescript-go/api-freebsd-arm64')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -210,7 +210,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-x64-musl')
+        return require('@typescript-go/api-linux-x64-musl')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -222,7 +222,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-x64-gnu')
+        return require('@typescript-go/api-linux-x64-gnu')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -236,7 +236,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-arm64-musl')
+        return require('@typescript-go/api-linux-arm64-musl')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -248,7 +248,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-arm64-gnu')
+        return require('@typescript-go/api-linux-arm64-gnu')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -262,7 +262,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-arm-musleabihf')
+        return require('@typescript-go/api-linux-arm-musleabihf')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -274,7 +274,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-arm-gnueabihf')
+        return require('@typescript-go/api-linux-arm-gnueabihf')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -288,7 +288,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-riscv64-musl')
+        return require('@typescript-go/api-linux-riscv64-musl')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -300,7 +300,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-riscv64-gnu')
+        return require('@typescript-go/api-linux-riscv64-gnu')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -313,7 +313,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-ppc64-gnu')
+        return require('@typescript-go/api-linux-ppc64-gnu')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -325,7 +325,7 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        return require('typescript-go-linux-s390x-gnu')
+        return require('@typescript-go/api-linux-s390x-gnu')
       } catch (e) {
         loadErrors.push(e)
       }
@@ -350,7 +350,7 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   }
   if (!nativeBinding) {
     try {
-      nativeBinding = require('typescript-go-wasm32-wasi')
+      nativeBinding = require('@typescript-go/api-wasm32-wasi')
     } catch (err) {
       if (process.env.NAPI_RS_FORCE_WASI) {
         loadErrors.push(err)
@@ -371,3 +371,4 @@ if (!nativeBinding) {
 }
 
 module.exports.runProject = nativeBinding.runProject
+module.exports.transform = nativeBinding.transform
