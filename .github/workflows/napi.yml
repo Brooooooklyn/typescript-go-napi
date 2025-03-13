@@ -74,7 +74,8 @@ jobs:
           npx napi create-npm-dirs
           npx napi artifacts
         working-directory: rust
-      - run: |
+      - name: Publish npm packages
+        run: |
           npm config set provenance true
           if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
@@ -93,5 +94,5 @@ jobs:
           fi
         working-directory: rust
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
