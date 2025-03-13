@@ -22,5 +22,9 @@
       "aarch64-unknown-linux-gnu",
       "aarch64-apple-darwin"
     ]
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Brooooooklyn"
   }
 }
