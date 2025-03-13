@@ -1,6 +1,12 @@
 {
   "name": "@typescript-go/api",
   "version": "0.0.1",
+  "author": {
+    "name": "LongYinan",
+    "email": "github@lyn.one"
+  },
+  "license": "Apache-2.0",
+  "description": "Node.js API for https://github.com/microsoft/typescript-go project",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [

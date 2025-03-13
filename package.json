@@ -20,7 +20,7 @@
         "url": "https://github.com/microsoft/typescript-go.git"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.73",
+        "@napi-rs/cli": "^3.0.0-alpha.74",
         "@types/node": "latest",
         "@types/which": "^3.0.4",
         "chokidar": "^4.0.3",

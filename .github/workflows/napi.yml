@@ -87,6 +87,7 @@ jobs:
             npm publish --tag next --access public
           else
             echo "Not a release, skipping publish"
+            npm publish --access public --dry-run
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
