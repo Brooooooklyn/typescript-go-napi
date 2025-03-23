@@ -50,7 +50,7 @@ func RunProject(project *C.char, out_diagnostics **C.void, out_length *C.size_t)
 		printDiagnostics(diagnostics, host, compilerOptions.Pretty.IsFalse())
 		return
 	}
-	result := program.Emit(&ts.EmitOptions{})
+	result := program.Emit(ts.EmitOptions{})
 	if len(result.Diagnostics) != 0 {
 		for i, diag := range result.Diagnostics {
 			*(**C.void)(unsafe.Pointer(uintptr(unsafe.Pointer(out_diagnostics)) + uintptr(i)*unsafe.Sizeof(uintptr(0)))) =
@@ -61,8 +61,8 @@ func RunProject(project *C.char, out_diagnostics **C.void, out_length *C.size_t)
 	}
 }
 
-//export Transform
-func Transform(input *C.char, filename *C.char) *C.char {
+//export TranspileModule
+func TranspileModule(input *C.char, filename *C.char) *C.char {
 	fileName := C.GoString(filename)
 	file := parser.ParseSourceFile(fileName, tspath.Path(fileName), C.GoString(input), core.ScriptTargetESNext, scanner.JSDocParsingModeParseNone)
 
@@ -74,7 +74,7 @@ func Transform(input *C.char, filename *C.char) *C.char {
 
 	ast.SetParentInChildren(file.AsNode())
 	emitContext := printer.NewEmitContext()
-	resolver := binder.NewReferenceResolver(binder.ReferenceResolverHooks{})
+	resolver := binder.NewReferenceResolver(compilerOptions, binder.ReferenceResolverHooks{})
 	file = transformers.NewTypeEraserTransformer(emitContext, compilerOptions).TransformSourceFile(file)
 	file = transformers.NewRuntimeSyntaxTransformer(emitContext, compilerOptions, resolver).TransformSourceFile(file)
 	// file = transformers.NewESModuleTransformer(emitContext, compilerOptions, resolver).TransformSourceFile(file)

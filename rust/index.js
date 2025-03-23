@@ -370,5 +370,11 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
+module.exports.JsxEmit = nativeBinding.JsxEmit
+module.exports.ModuleDetectionKind = nativeBinding.ModuleDetectionKind
+module.exports.ModuleKind = nativeBinding.ModuleKind
+module.exports.ModuleResolutionKind = nativeBinding.ModuleResolutionKind
+module.exports.NewLineKind = nativeBinding.NewLineKind
 module.exports.runProject = nativeBinding.runProject
-module.exports.transform = nativeBinding.transform
+module.exports.ScriptTarget = nativeBinding.ScriptTarget
+module.exports.transpileModule = nativeBinding.transpileModule
