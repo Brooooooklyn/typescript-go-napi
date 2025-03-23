@@ -193,6 +193,8 @@ custom-gcl.hash
 
 .idea
 
+!testdata/submoduleAccepted.txt
+
 # Rust
 /target
 *.a
